@@ -18,6 +18,8 @@ class TaskPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function actionDetail() {
-        $this->sendResponse(new JsonResponse($this->taskManager->getTaskDetail(1)));
+        $this->getHttpResponse()->setHeader('Access-Control-Allow-Origin', '*');
+        $response = new JsonResponse($this->taskManager->getTaskDetail(1));
+        $this->sendResponse($response);
     }
 }

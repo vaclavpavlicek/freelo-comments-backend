@@ -15,7 +15,7 @@ class TaskManager
             'task' => array(
                 'name' => 'Merchandising stánku snědá tíseň na veletrhu v Mostě',
                 'resolved' => false,
-                'dueDate' => DateTime::createFromFormat('MM-DD-YYYY', '03-25-2019'),
+                'dueDate' => '03-25-2019',
                 'assignee' => array(
                     'nickname' => 'Dáša',
                     'profilePicture' => './images/avatar3.png'
