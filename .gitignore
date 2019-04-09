@@ -1,5 +1,4 @@
 app/config/config.local.neon
-vendor/
 log/
 temp/
 
