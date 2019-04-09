@@ -2,9 +2,8 @@
 
 namespace App\Presenters;
 
-use App\Model\TaskManager;
+use App\Model\ITaskManager;
 use Nette;
-use Nette\Application\Responses\JsonResponse;
 
 class TaskPresenter extends Nette\Application\UI\Presenter {
 
@@ -12,14 +11,13 @@ class TaskPresenter extends Nette\Application\UI\Presenter {
     private $taskManager;
 
 
-    public function __construct(TaskManager $taskManager)
+    public function __construct(ITaskManager $taskManager)
     {
         $this->taskManager = $taskManager;
     }
 
     public function actionDetail() {
         $this->getHttpResponse()->setHeader('Access-Control-Allow-Origin', '*');
-        $response = new JsonResponse($this->taskManager->getTaskDetail(1));
-        $this->sendResponse($response);
+        $this->sendJson($this->taskManager->getTaskDetail($this->presenter->getParameter('id')));
     }
 }
