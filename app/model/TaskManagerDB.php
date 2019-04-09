@@ -20,13 +20,21 @@ class TaskManagerDB implements ITaskManager
     {
         $task = $this->database->query('select tasks.id, tasks.title, tasks."dueDate", tasks.resolved, tasks."assigneeId", people.name from tasks join people on tasks."assigneeId" = people.id where tasks.id = ?', $id)->fetch();
         if ($task) {
-            $comments = $this->database->query('select * from comments where "taskId" = ?', $task['id'])->fetchAll();
+            $comments = $this->database->query('select comments.id, comments.text, people.name from comments join people on comments."authorId" = people.id  where "taskId" = ?', $task['id'])->fetchAll();
             $task['assignee'] = ['id' => $task['assigneeId'], 'name' => $task['name']];
             unset($task['assigneeId']);
             unset($task['name']);
             return [
                 'task' => $task,
-                'comments' => $comments
+                'comments' => array_map(function ($comment) {
+                    return [
+                        'id' => $comment['id'],
+                        'text' => $comment['text'],
+                        'author' => [
+                            'name' => $comment['name'],
+                        ]
+                    ];
+                }, $comments)
             ];
         } else {
             return ['message' => 'task-not-found'];
